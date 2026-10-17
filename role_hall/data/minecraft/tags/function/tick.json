@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "monster:undead_miner/tick",
+    "mortal:steve/tick",
+    "mortal:steve/tablet/tick",
+    "death:tick",
+    "hitbox:tick",
+    "monster:undead_miner/pickaxe/tick",
+    "monster:undead_miner/lantern/tick"
+  ]
+}

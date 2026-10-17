@@ -1,0 +1,13 @@
+#By ZCode —— steve 角色 · 用法
+tellraw @a [{"text":"===== steve =====","color":"white"}]
+tellraw @a [{"text":"成为角色：/tag @s add steve","color":"yellow"}]
+tellraw @a [{"text":"  · 血量 150（左上角血条，只有本人可见）","color":"gray"}]
+tellraw @a [{"text":"  · 原版心永远满：所有伤害都走血池","color":"gray"}]
+tellraw @a [{"text":"  · 自动穿黑上衣/黑裤/棕鞋/史蒂夫头颅，不可破坏且脱不下来","color":"gray"}]
+tellraw @a [{"text":"  · 自动持有「平板」（左键轻击 10 / 0.5 秒，右键重击 15 / 1.5 秒）","color":"gray"}]
+tellraw @a [{"text":"道具：/function mortal:steve/adrenaline_give","color":"yellow"}]
+tellraw @a [{"text":"  · 速度提升：右键 → 6.5 秒加速 I + 回血（任何人都能用，用一次就没了）","color":"gray"}]
+tellraw @a [{"text":"移除角色：/tag @s remove steve","color":"yellow"}]
+tellraw @a [{"text":"  → 制服、平板、血池、血条全部自动清掉","color":"gray"}]
+tellraw @a [{"text":"重置血量：/function mortal:steve/setup","color":"dark_gray"}]
+tellraw @a [{"text":"谁扣血：伤害源把数值写进 steve.dmg，再调 mortal:steve/hurt","color":"dark_gray"}]

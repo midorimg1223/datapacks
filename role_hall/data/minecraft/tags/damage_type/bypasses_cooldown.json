@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:generic",
+    "monster:undead_miner/pickaxe/undead_melee"
+  ]
+}

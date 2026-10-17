@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "monster:undead_miner/load",
+    "mortal:steve/load",
+    "mortal:steve/tablet/load",
+    "death:load",
+    "hitbox:load",
+    "monster:undead_miner/pickaxe/load",
+    "monster:undead_miner/lantern/load"
+  ]
+}

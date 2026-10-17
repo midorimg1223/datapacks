@@ -1,0 +1,10 @@
+{
+  "criteria": {
+    "click": {
+      "trigger": "minecraft:player_interacted_with_entity"
+    }
+  },
+  "rewards": {
+    "function": "board:hunter_show"
+  }
+}

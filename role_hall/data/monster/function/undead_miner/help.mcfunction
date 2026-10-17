@@ -1,0 +1,11 @@
+#By ZCode —— 亡灵矿工 · 用法
+tellraw @a [{"text":"===== 亡灵矿工 =====","color":"red"}]
+tellraw @a [{"text":"成为角色：/tag @s add undead_miner","color":"yellow"}]
+tellraw @a [{"text":"  · 血量 250（左上角血条，只有本人可见）","color":"gray"}]
+tellraw @a [{"text":"  · 原版心永远满：所有伤害都走血池，不听原版的","color":"gray"}]
+tellraw @a [{"text":"  · 自动穿上制服（灰衣/淡灰裤/黑鞋/头颅）并锁死，脱不下来","color":"gray"}]
+tellraw @a [{"text":"  · 自动发一把亡灵之镐（左键轻击 / 右键重击）","color":"gray"}]
+tellraw @a [{"text":"移除角色：/tag @s remove undead_miner","color":"yellow"}]
+tellraw @a [{"text":"  → 制服、亡灵之镐、回魂令、血池、血条全部自动清掉","color":"gray"}]
+tellraw @a [{"text":"重置血量：/function monster:undead_miner/setup","color":"dark_gray"}]
+tellraw @a [{"text":"谁扣血：任何伤害源自己把数值写进 undead_miner.dmg，再调 monster:undead_miner/hurt","color":"dark_gray"}]
