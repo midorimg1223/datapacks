@@ -1,3 +1,5 @@
+# 自愈：标记说发过、但身上确实没有亡灵之镐 → 清标记，下一 tick 自动补发
+execute as @a[tag=undead_miner,tag=!spectator,scores={undead_miner.issued=1..}] unless items entity @s container.* *[custom_data~{Tags:["undead_pickaxe"]}] unless items entity @s weapon.mainhand *[custom_data~{Tags:["undead_pickaxe"]}] unless items entity @s weapon.offhand *[custom_data~{Tags:["undead_pickaxe"]}] run scoreboard players reset @s undead_miner.issued
 #By ZCode —— 亡灵之镐 主循环
 
 # 自检心跳（/function monster:undead_miner/pickaxe/test 会读它）
@@ -14,13 +16,18 @@ scoreboard players add @a undead_pickaxe.cd_heavy 0
 #   at @s 不能少 —— tick 的执行位置是世界原点，只写 as 会让「眼睛前方」从原点算起
 execute as @a[scores={undead_pickaxe.rc=1..}] run scoreboard players add @s undead_pickaxe.rc_total 1
 execute as @a[scores={undead_pickaxe.rc=1..}] at @s run function monster:undead_miner/pickaxe/use
+execute as @a[scores={undead_pickaxe.rc=1..}] if items entity @s weapon.mainhand *[custom_data~{Tags:["undead_horse_soul"]}] run function monster:undead_miner/pickaxe/charm_use
 scoreboard players reset @a[scores={undead_pickaxe.rc=1..}] undead_pickaxe.rc
 
 # 丢不掉：掉出去立刻收回
 execute as @e[type=item,nbt={Item:{components:{"minecraft:custom_data":{Tags:["undead_pickaxe"]}}}}] at @s if entity @p[tag=!spectator,distance=..8] run function monster:undead_miner/pickaxe/retrieve
 
 # 关掉原版攻速：保证每次左键都是满蓄力（原版本身 1 点 + 轻击函数补的 3 点 = 轻击 4 点）
-execute as @a run attribute @s attack_speed base set 1024
-execute as @a[tag=!spectator] run attribute @s attack_damage base set 1
+execute as @a[tag=undead_miner,tag=!spectator] run attribute @s attack_speed base set 1024
+execute as @a[tag=steve,tag=!spectator] run attribute @s attack_speed base set 1024
+execute as @a[tag=!undead_miner,tag=!steve,tag=!spectator] run attribute @s attack_speed base set 4
+execute as @a[tag=undead_miner,tag=!spectator] run attribute @s attack_damage base set 1
+execute as @a[tag=steve,tag=!spectator] run attribute @s attack_damage base set 1
+execute as @a[tag=!undead_miner,tag=!steve,tag=!spectator] run attribute @s attack_damage base set 1
 # 旁观者不能攻击
 execute as @a[tag=spectator] run attribute @s attack_damage base set 0

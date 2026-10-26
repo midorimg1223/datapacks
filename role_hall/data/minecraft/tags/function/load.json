@@ -7,6 +7,7 @@
     "death:load",
     "hitbox:load",
     "monster:undead_miner/pickaxe/load",
-    "monster:undead_miner/lantern/load"
+    "monster:undead_miner/lantern/load",
+    "mcdd:load"
   ]
 }

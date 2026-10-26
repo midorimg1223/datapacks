@@ -15,9 +15,9 @@ execute as @a[tag=spectator,scores={death.timer=..0}] run function death:respawn
 
 # 4) 幽灵期间（这 30 秒）在物品栏上方显示剩余秒数
 scoreboard players set #twenty death.sec 20
-execute as @a[tag=spectator,scores={death.timer=0..}] run scoreboard players operation #sec death.sec = @s death.timer
-execute as @a[tag=spectator,scores={death.timer=0..}] run scoreboard players operation #sec death.sec /= #twenty death.sec
-execute as @a[tag=spectator,scores={death.timer=0..}] run title @s actionbar [{"text":"你距离复活还有 ","color":"gray"},{"score":{"name":"#sec","objective":"death.sec"}},{"text":" 秒","color":"gray"}]
+execute as @a[tag=spectator,scores={death.timer=0..}] run scoreboard players operation @s death.sec = @s death.timer
+execute as @a[tag=spectator,scores={death.timer=0..}] run scoreboard players operation @s death.sec /= #twenty death.sec
+execute as @a[tag=spectator,scores={death.timer=0..}] run title @s actionbar [{"text":"你距离复活还有 ","color":"gray"},{"score":{"name":"@s","objective":"death.sec"}},{"text":" 秒","color":"gray"}]
 
 # 5) 重生前 3 / 2 / 1 秒：三声沉重的钟声（音调依次略升：60/40/20 tick 各匹配一次）
 execute as @a[tag=spectator,scores={death.timer=60}] at @s run playsound minecraft:block.bell.use master @s ~ ~ ~ 1 0.6
@@ -27,3 +27,4 @@ execute as @a[tag=spectator,scores={death.timer=20}] at @s run playsound minecra
 # 6) 幽灵期间保持隐身：若玩家是"真死"（走原版死亡界面再重生），重生会清掉所有药水效果，
 #    这里每 tick 补一次，保证幽灵始终看不见
 execute as @a[tag=spectator] run effect give @s minecraft:invisibility infinite 0 true
+scoreboard players remove @a[scores={death.attacker_ttl=1..}] death.attacker_ttl 1

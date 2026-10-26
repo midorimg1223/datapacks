@@ -30,3 +30,4 @@ bossbar set undead_miner6 color red
 bossbar set undead_miner6 max 250
 bossbar set undead_miner6 style notched_20
 scoreboard objectives add undead_miner.issued dummy
+scoreboard objectives add undead_miner.full dummy

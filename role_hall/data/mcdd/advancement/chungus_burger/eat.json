@@ -1,0 +1,20 @@
+{
+  "criteria": {
+    "eat": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "minecraft:bread",
+          "predicates": {
+            "minecraft:custom_data": {
+              "Tags": ["chungus_burger"]
+            }
+          }
+        }
+      }
+    }
+  },
+  "rewards": {
+    "function": "mcdd:chungus_burger/eat"
+  }
+}

@@ -1,4 +1,6 @@
 #By ZCode —— 重击入口（@s = 攻击者）：冷却中静默，不给任何提示
+# 旁观者不能攻击
+execute if entity @s[tag=spectator] run return 0
 # 把冷却分数建出来：未初始化的分数在 matches ..0 判定里会直接失败，会静默吃掉这次攻击
 scoreboard players add @s undead_pickaxe.cd_heavy 0
 execute if score @s undead_pickaxe.cd_heavy matches ..0 run function monster:undead_miner/pickaxe/heavy_effect

@@ -20,14 +20,14 @@ execute if score @s soul_lantern.age matches 1600..1799 if score @s soul_lantern
 execute store result score @s soul_lantern.flag if entity @a[tag=mortal,distance=..7]
 
 # 只在「凡人刚进入」的那一瞬报警一次：用 active 标记做边沿判断
-execute if score @s soul_lantern.flag matches 1 unless entity @s[tag=soul_lantern_active] run function monster:undead_miner/lantern/alert
+execute if score @s soul_lantern.flag matches 1.. unless entity @s[tag=soul_lantern_active] run function monster:undead_miner/lantern/alert
 
 # 幂等地维护 active 标记
-execute if score @s soul_lantern.flag matches 1 unless entity @s[tag=soul_lantern_active] run tag @s add soul_lantern_active
+execute if score @s soul_lantern.flag matches 1.. unless entity @s[tag=soul_lantern_active] run tag @s add soul_lantern_active
 execute if score @s soul_lantern.flag matches 0 if entity @s[tag=soul_lantern_active] run tag @s remove soul_lantern_active
 
 # 暴露期间持续保证亡灵矿工手里有回魂令（幂等）
-execute if score @s soul_lantern.flag matches 1 as @a[tag=undead_miner] unless items entity @s container.* *[custom_data~{Tags:["soul_lantern_tp"]}] run function monster:undead_miner/lantern/give_tp
+execute if score @s soul_lantern.flag matches 1.. as @a[tag=undead_miner] unless items entity @s container.* *[custom_data~{Tags:["soul_lantern_tp"]}] run function monster:undead_miner/lantern/give_tp
 
 # 凡人：失明 + 缓慢 + 发光
 execute as @a[tag=mortal,distance=..7] run function monster:undead_miner/lantern/debuff

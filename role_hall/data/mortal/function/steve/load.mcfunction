@@ -64,3 +64,4 @@ data modify storage death:charge steve4.bar set value "steve_charge4"
 data modify storage death:charge steve5.bar set value "steve_charge5"
 data modify storage death:charge steve6.bar set value "steve_charge6"
 scoreboard objectives add steve.issued dummy
+scoreboard objectives add steve.full dummy

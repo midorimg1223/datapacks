@@ -5,8 +5,10 @@
     "mortal:steve/tick",
     "mortal:steve/tablet/tick",
     "death:tick",
-    "hitbox:tick",
     "monster:undead_miner/pickaxe/tick",
-    "monster:undead_miner/lantern/tick"
+    "monster:undead_miner/lantern/tick",
+    "hitbox:tick",
+    "mcdd:luckbox/tick",
+    "mcdd:shard/tick"
   ]
 }

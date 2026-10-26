@@ -1,4 +1,6 @@
 #By ZCode —— 玩家死亡（@s = 刚死的玩家）
+# 幂等：已经进入幽灵状态就不再重复走死亡流程
+execute if entity @s[tag=spectator] run return 0
 # 1) 记录死亡前拥有的角色 tag（30 秒后要还原）
 scoreboard players set @s death.was_miner 0
 scoreboard players set @s death.was_steve 0
@@ -46,22 +48,14 @@ execute if score @s steve.hp matches -1000000.. run scoreboard players set @s st
 scoreboard players set @s undead_miner.dead 0
 scoreboard players set @s steve.dead 0
 
-# 6) 给死者：深红 You Are Dead + 提示"被谁击杀"（只走屏幕中央的标题，聊天栏不刷屏）
+# 6) 给死者：You Are Dead + 只读自己的攻击者记录（不再用"附近谁有击杀标记"）
 title @s times 10 100 20
-# 被击杀音效（给死者；音效来自资源包 undead_pickaxe_rp 的 lifelose）
 execute at @s run playsound mcdd:lifelose master @s ~ ~ ~ 1 1
 title @s title [{"text":"You Are Dead","color":"dark_red","bold":true}]
-execute if entity @a[tag=!spectator,scores={death.killflag=1}] run title @s subtitle [{"text":"被 ","color":"red"},{"selector":"@a[tag=!spectator,scores={death.killflag=1},sort=nearest,limit=1]","color":"white","bold":true},{"text":" 击杀","color":"red"}]
-execute unless entity @a[tag=!spectator,scores={death.killflag=1}] run title @s subtitle [{"text":"被环境或生物击杀","color":"gray"}]
-
-# 7) 给击杀者：大标题「击杀！」+ 副标题「XXX 被击杀」（XXX = 刚死的玩家）
-#    做法：先把死者临时打个标签，击杀者那边的副标题就能用选择器把死者名字渲染出来
 tag @s add death_victim
-execute as @a[tag=!spectator,scores={death.killflag=1},sort=nearest,limit=1] run title @s times 5 40 10
-execute as @a[tag=!spectator,scores={death.killflag=1},sort=nearest,limit=1] run title @s title [{"text":"击杀！","color":"dark_red","bold":true}]
-execute as @a[tag=!spectator,scores={death.killflag=1},sort=nearest,limit=1] run title @s subtitle [{"selector":"@a[tag=death_victim]","color":"white","bold":true},{"text":" 被击杀","color":"gray"}]
-# 聊天栏广播：XXX 击杀了 XXX（用选择器渲染名字，不用拼字符串）
-execute as @a[tag=!spectator,scores={death.killflag=1},sort=nearest,limit=1] run tellraw @a [{"selector":"@s","color":"red"},{"text":" 击杀了 ","color":"gray"},{"selector":"@a[tag=death_victim]","color":"white"}]
-# 击杀音效（给击杀者；音效来自资源包 undead_pickaxe_rp 的 streak1）
-execute as @a[tag=!spectator,scores={death.killflag=1},sort=nearest,limit=1] at @s run playsound mcdd:streak1 master @s ~ ~ ~ 1 1
+execute store result storage death:me slot int 1 run scoreboard players get @s death.attacker_slot
+execute if score @s death.attacker_kind matches 1 if score @s death.attacker_ttl matches 1.. run function death:msg_miner with storage death:me
+execute if score @s death.attacker_kind matches 2 if score @s death.attacker_ttl matches 1.. run function death:msg_steve with storage death:me
+execute unless score @s death.attacker_ttl matches 1.. run function death:msg_fallback
 tag @s remove death_victim
+scoreboard players reset @s death.attacker_ttl

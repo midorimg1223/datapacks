@@ -1,4 +1,6 @@
 #By ZCode —— 轻击入口（@s = 攻击者），由 advancement monster:undead_miner/pickaxe/light_hit（player_hurt_entity）触发
+# 旁观者不能攻击
+execute if entity @s[tag=spectator] run return 0
 # 原版左键空挥没有事件，所以只在真的打中实体时才响
 advancement revoke @s only monster:undead_miner/pickaxe/light_hit
 # 把冷却分数建出来：未初始化的分数在 matches ..0 判定里会直接失败，会静默吃掉这次攻击

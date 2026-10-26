@@ -1,4 +1,4 @@
-#By ZCode
-# 先还给最近的玩家（背包满时会掉在脚下，下一 tick 再被收回，不会丢失），再清掉地上那把
-execute as @p[tag=!spectator,distance=..8] run function monster:undead_miner/pickaxe/give
+#By ZCode —— 掉地上的镐子收回给它的主人（最近的亡灵矿工）；没有矿工才给最近的玩家
+execute as @p[tag=undead_miner,tag=!spectator,distance=..8] run function monster:undead_miner/pickaxe/give
+execute unless entity @p[tag=undead_miner,tag=!spectator,distance=..8] as @p[tag=!spectator,distance=..8] run function monster:undead_miner/pickaxe/give
 kill @s

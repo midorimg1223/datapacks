@@ -9,15 +9,27 @@ tag @a remove hb_armed
 execute as @a if items entity @s weapon.mainhand *[custom_data~{Tags:["undead_pickaxe"]}] run tag @s add hb_armed
 execute as @a if items entity @s weapon.mainhand *[custom_data~{Tags:["tablet"]}] run tag @s add hb_armed
 
-# 2) 角色（玩家或生物都行）：身上没骑盒子就挂一个（幂等）
-execute as @e[tag=undead_miner,tag=!spectator] unless data entity @s Passengers[{id:"minecraft:interaction"}] run function hitbox:attach_miner
-execute as @e[tag=steve,tag=!spectator] unless data entity @s Passengers[{id:"minecraft:interaction"}] run function hitbox:attach_steve
+# 2) 角色玩家：没有"已挂盒子"标记就挂一个（幂等；不再用 ride —— 原版禁止把玩家当坐骑）
+execute as @a[tag=undead_miner,tag=!spectator] unless entity @s[tag=hb_has_box] run function hitbox:attach_miner
+execute as @a[tag=steve,tag=!spectator] unless entity @s[tag=hb_has_box] run function hitbox:attach_steve
 
-# 3) 其他敌对生物：8 格内有持械者、且自己身上没盒子才挂（不想管生物就把这行删掉）
-execute as @e[type=!minecraft:player,tag=!undead_miner,tag=!steve,tag=!spectator,type=!minecraft:item,type=!minecraft:experience_orb,type=!minecraft:armor_stand,type=!minecraft:interaction,type=!minecraft:marker,type=!minecraft:item_frame,type=!minecraft:glow_item_frame,type=!minecraft:painting,type=!minecraft:area_effect_cloud,type=!minecraft:leash_knot,type=!minecraft:arrow,type=!minecraft:spectral_arrow,type=!minecraft:firework_rocket,type=!minecraft:falling_block,type=!minecraft:eye_of_ender] unless data entity @s Passengers[{id:"minecraft:interaction"}] if entity @a[tag=hb_armed,distance=..8] run function hitbox:attach_other
+# 2b) 每 tick 把盒子 tp 到主人（hb.key = 角色槽位号 1~6）
+execute as @e[tag=hb_miner] store result storage hitbox:key n int 1 run scoreboard players get @s hb.key
+execute as @e[tag=hb_miner] run function hitbox:follow_miner with storage hitbox:key
+execute as @e[tag=hb_steve] store result storage hitbox:key n int 1 run scoreboard players get @s hb.key
+execute as @e[tag=hb_steve] run function hitbox:follow_steve with storage hitbox:key
 
-# 4) 自愈：每 600 tick（30 秒）把所有盒子清掉，让 2) 3) 重新挂
-#    （主人死亡/掉线时盒子会随主人一起消失，所以这里只是安全网；间隔太短会白白丢记录）
+# 2c) 已经不该有盒子的玩家：清标记 + 清掉身边的角色盒子（卸角色/死亡/旁观）
+execute as @a[tag=!undead_miner,tag=!steve] run tag @s remove hb_has_box
+execute as @a[tag=spectator] run tag @s remove hb_has_box
+execute as @a[tag=!undead_miner] at @s run kill @e[tag=hb_miner,distance=..1]
+execute as @a[tag=!steve] at @s run kill @e[tag=hb_steve,distance=..1]
+execute as @a[tag=spectator] at @s run kill @e[type=minecraft:interaction,tag=melee_hitbox,distance=..1]
+
+# 3) 其他敌对生物：8 格内有持械者、且身上没盒子才挂（生物可以骑，ride 对生物有效）
+execute as @e[type=!minecraft:player,tag=!undead_miner,tag=!steve,tag=!spectator,type=!minecraft:item,type=!minecraft:experience_orb,type=!minecraft:armor_stand,type=!minecraft:interaction,type=!minecraft:marker,type=!minecraft:item_frame,type=!minecraft:glow_item_frame,type=!minecraft:painting,type=!minecraft:area_effect_cloud,type=!minecraft:leash_knot,type=!minecraft:arrow,type=!minecraft:spectral_arrow,type=!minecraft:firework_rocket,type=!minecraft:falling_block,type=!minecraft:eye_of_ender] unless data entity @s Passengers[{id:"minecraft:interaction"}] unless entity @e[type=minecraft:interaction,tag=hb_other,distance=..2] if entity @a[tag=hb_armed,distance=..8] run function hitbox:attach_other
+
+# 4) 自愈：每 600 tick（30 秒）清掉所有盒子重建（处理各种残留）
 scoreboard players add #hb.reset hb.timer 1
 execute if score #hb.reset hb.timer matches 600.. run function hitbox:reset
 

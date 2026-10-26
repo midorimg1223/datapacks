@@ -95,4 +95,3 @@ execute as @a[scores={steve.slot=6}] run function death:bar_charge with storage 
 execute as @a[tag=steve,scores={steve.charge=100..}] at @s unless score @s steve.charged matches 1 run function mortal:steve/charge_release
 
 # 清掉旧基座（诡异菌钓竿）的速度提升，避免玩家拿着用不了
-clear @a[tag=steve] warped_fungus_on_a_stick[minecraft:custom_data~{Tags:["adrenaline"]}]

@@ -15,3 +15,6 @@ scoreboard objectives add death.killflag dummy
 scoreboard objectives add death.killttl dummy
 # 显示用的临时计分项（算剩余秒数）
 scoreboard objectives add death.sec dummy
+scoreboard objectives add death.attacker_kind dummy
+scoreboard objectives add death.attacker_slot dummy
+scoreboard objectives add death.attacker_ttl dummy

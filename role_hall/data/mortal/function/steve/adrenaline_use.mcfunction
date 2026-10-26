@@ -21,8 +21,9 @@ execute if items entity @s weapon.mainhand *[custom_data~{Tags:["adrenaline"]}] 
 execute if items entity @s weapon.mainhand *[custom_data~{Tags:["adrenaline"]}] if score @s undead_miner.hp matches -1000000.. run scoreboard players add @s undead_miner.hp 30
 execute if items entity @s weapon.mainhand *[custom_data~{Tags:["adrenaline"]}] if score @s undead_miner.hp matches 251.. run scoreboard players set @s undead_miner.hp 250
 
-# 消耗（放最后一行，不能再往后加任何依赖"手里有它"的命令）
-execute if items entity @s weapon.mainhand *[custom_data~{Tags:["adrenaline"]}] run clear @s warped_fungus_on_a_stick[minecraft:custom_data~{Tags:["adrenaline"]}] 1
-# 用掉了 —— 这时候才把充能清空
+# 用掉了 —— 先把充能清空（必须在 clear 之前判断手持，clear 之后就查不到道具了）
 execute if items entity @s weapon.mainhand *[custom_data~{Tags:["adrenaline"]}] run scoreboard players set @s steve.charge 0
 execute if items entity @s weapon.mainhand *[custom_data~{Tags:["adrenaline"]}] run scoreboard players set @s steve.charged 0
+
+# 消耗（放最后一行，不能再往后加任何依赖"手里有它"的命令）
+execute if items entity @s weapon.mainhand *[custom_data~{Tags:["adrenaline"]}] run clear @s warped_fungus_on_a_stick[minecraft:custom_data~{Tags:["adrenaline"]}] 1

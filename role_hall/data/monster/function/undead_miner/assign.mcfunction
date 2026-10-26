@@ -6,4 +6,6 @@ execute if score @s undead_miner.slot matches 0 unless entity @a[scores={undead_
 execute if score @s undead_miner.slot matches 0 unless entity @a[scores={undead_miner.slot=4}] run scoreboard players set @s undead_miner.slot 4
 execute if score @s undead_miner.slot matches 0 unless entity @a[scores={undead_miner.slot=5}] run scoreboard players set @s undead_miner.slot 5
 execute if score @s undead_miner.slot matches 0 unless entity @a[scores={undead_miner.slot=6}] run scoreboard players set @s undead_miner.slot 6
-execute if score @s undead_miner.slot matches 0 run tellraw @s [{"text":"[亡灵矿工] 槽位已满（最多 6 人显示生命条）","color":"red"}]
+execute if score @s undead_miner.slot matches 0 unless score @s undead_miner.full matches 1 run tellraw @s [{"text":"[undead_miner] ","color":"red"},{"text":"槽位已满（最多 6 人显示生命条）","color":"red"}]
+execute if score @s undead_miner.slot matches 0 run scoreboard players set @s undead_miner.full 1
+execute if score @s undead_miner.slot matches 1.. run scoreboard players set @s undead_miner.full 0
